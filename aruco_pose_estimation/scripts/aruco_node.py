@@ -371,7 +371,6 @@ class ArucoNode(rclpy.node.Node):
             self.get_parameter("output_image_topic").get_parameter_value().string_value
         )
 
-
 def main():
     rclpy.init()
     node = ArucoNode()
@@ -379,7 +378,6 @@ def main():
 
     node.destroy_node()
     rclpy.shutdown()
-
 
 if __name__ == "__main__":
     main()

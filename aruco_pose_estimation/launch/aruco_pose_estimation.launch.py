@@ -1,6 +1,6 @@
 # ROS2 imports
 from launch.substitutions import PathJoinSubstitution, LaunchConfiguration, TextSubstitution
-from launch.actions import IncludeLaunchDescription
+from launch.actions import IncludeLaunchDescription, ExecuteProcess
 from launch.launch_description_sources import PythonLaunchDescriptionSource
 from launch import LaunchDescription
 from launch_ros.actions import Node
@@ -145,6 +145,17 @@ def generate_launch_description():
         executable='rviz2',
         arguments=['-d', rviz_file]
     )
+    
+    write_markers_pose_to_json = ExecuteProcess(
+        cmd=[
+            "python3",
+            os.path.join(
+                os.getcwd(),
+                'src/ros2-aruco-pose-estimation/aruco_pose_estimation/scripts/write_marker_pose_to_json.py'
+            )
+        ],
+        output='screen'
+    )
 
     return LaunchDescription([
         # Arguments
@@ -163,5 +174,8 @@ def generate_launch_description():
         aruco_node, 
         camera_feed_depth_node,
         camera_feed_node,
-        rviz2_node
+        rviz2_node,
+        
+        # Save markers pose
+        write_markers_pose_to_json
     ])
