@@ -17,7 +17,8 @@ class ArucoToJson(Node):
             10
         )
 
-        self.json_file_path = os.path.join(os.getcwd(), 'aruco_markers.json')
+        self.json_file_path = os.path.join(os.getcwd(), 'src/ros2-aruco-pose-estimation/aruco_pose_estimation/data'
+                                                        '/aruco_markers.json')
         self.markers_data = {}
 
     def listener_callback(self, msg):
@@ -48,6 +49,7 @@ class ArucoToJson(Node):
 
             self.markers_data[marker_id] = marker_data
 
+        os.makedirs(os.path.dirname(self.json_file_path), exist_ok=True)
         with open(self.json_file_path, 'w') as f:
             json.dump(list(self.markers_data.values()), f, indent=4)
             self.get_logger().info(f'Marker data saved to {self.json_file_path}')

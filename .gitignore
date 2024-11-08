@@ -1,1 +1,4 @@
 /.vscode
+/.idea
+
+/aruco_pose_estimation/data
