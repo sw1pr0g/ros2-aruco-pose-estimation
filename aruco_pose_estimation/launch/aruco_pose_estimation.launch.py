@@ -134,16 +134,15 @@ def generate_launch_description():
         condition=UnlessCondition(LaunchConfiguration('use_depth_input'))
     )
 
-    rviz_file = PathJoinSubstitution([
-        FindPackageShare('aruco_pose_estimation'),
-        'rviz',
-        'cam_detect.rviz'
-    ])
-
-    rviz2_node = Node(
-        package='rviz2',
-        executable='rviz2',
-        arguments=['-d', rviz_file]
+    robot_position_publisher = ExecuteProcess(
+        cmd=[
+            "python3",
+            os.path.join(
+                os.getcwd(),
+                'src/ros2-aruco-pose-estimation/aruco_pose_estimation/scripts/robot_position_publisher.py'
+            )
+        ],
+        output='screen'
     )
     
     write_markers_pose_to_json = ExecuteProcess(
@@ -174,8 +173,8 @@ def generate_launch_description():
         aruco_node, 
         camera_feed_depth_node,
         camera_feed_node,
-        rviz2_node,
         
         # Save markers pose
+        robot_position_publisher,
         write_markers_pose_to_json
     ])
