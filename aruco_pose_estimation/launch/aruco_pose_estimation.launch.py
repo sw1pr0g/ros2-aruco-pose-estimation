@@ -133,24 +133,13 @@ def generate_launch_description():
         }.items(),
         condition=UnlessCondition(LaunchConfiguration('use_depth_input'))
     )
-
-    robot_position_publisher = ExecuteProcess(
-        cmd=[
-            "python3",
-            os.path.join(
-                os.getcwd(),
-                'src/ros2-aruco-pose-estimation/aruco_pose_estimation/scripts/robot_position_publisher.py'
-            )
-        ],
-        output='screen'
-    )
     
-    write_markers_pose_to_json = ExecuteProcess(
+    write_markers_to_json = ExecuteProcess(
         cmd=[
             "python3",
             os.path.join(
                 os.getcwd(),
-                'src/ros2-aruco-pose-estimation/aruco_pose_estimation/scripts/write_marker_pose_to_json.py'
+                'src/ros2-aruco-pose-estimation/aruco_pose_estimation/scripts/write_markers_to_json.py'
             )
         ],
         output='screen'
@@ -175,6 +164,5 @@ def generate_launch_description():
         camera_feed_node,
         
         # Save markers pose
-        robot_position_publisher,
-        write_markers_pose_to_json
+        write_markers_to_json
     ])
